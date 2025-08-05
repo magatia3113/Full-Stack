@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Odoo HR - 인사 관리 시스템 데모</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1976d2 0%, #42a5f5 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .primary { color: #1976d2; }
+        .success { color: #4caf50; }
+        .warning { color: #ff9800; }
+        .info { color: #2196f3; }
+        
+        .nav-tabs {
+            display: flex;
+            background: white;
+            border-radius: 12px;
+            padding: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .nav-tab {
+            flex: 1;
+            padding: 12px 20px;
+            text-align: center;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            background: none;
+            font-family: inherit;
+        }
+        
+        .nav-tab.active {
+            background: #1976d2;
+            color: white;
+        }
+        
+        .nav-tab:hover:not(.active) {
+            background: #f0f0f0;
+        }
+        
+        .content-section {
+            display: none;
+        }
+        
+        .content-section.active {
+            display: block;
+        }
+        
+        .employee-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .employee-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .employee-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #1976d2;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+        
+        .employee-info h3 {
+            margin-bottom: 5px;
+        }
+        
+        .employee-info p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .btn {
+            background: #1976d2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: background 0.2s;
+        }
+        
+        .btn:hover {
+            background: #1565c0;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            color: #1976d2;
+            border: 2px solid #1976d2;
+        }
+        
+        .btn-outline:hover {
+            background: #1976d2;
+            color: white;
+        }
+        
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .table th,
+        .table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .table th {
+            background: #f8f9fa;
+            font-weight: 500;
+        }
+        
+        .badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .badge-success {
+            background: #e8f5e8;
+            color: #4caf50;
+        }
+        
+        .badge-warning {
+            background: #fff3e0;
+            color: #ff9800;
+        }
+        
+        .material-icons {
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1><span class="material-icons">business</span>Odoo HR - 인사 관리 시스템</h1>
+        <p>현대적이고 직관적인 인사 관리 솔루션</p>
+    </div>
+
+    <div class="container">
+        <!-- 통계 대시보드 -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number primary">24</div>
+                <div class="stat-label">총 직원 수</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number success">5</div>
+                <div class="stat-label">부서 수</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number warning">18</div>
+                <div class="stat-label">오늘 출근</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number info">12</div>
+                <div class="stat-label">급여명세서</div>
+            </div>
+        </div>
+
+        <!-- 네비게이션 탭 -->
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="showSection('dashboard')">
+                <span class="material-icons">dashboard</span>대시보드
+            </button>
+            <button class="nav-tab" onclick="showSection('employees')">
+                <span class="material-icons">people</span>직원 관리
+            </button>
+            <button class="nav-tab" onclick="showSection('departments')">
+                <span class="material-icons">business</span>부서 관리
+            </button>
+            <button class="nav-tab" onclick="showSection('attendance')">
+                <span class="material-icons">access_time</span>근태 관리
+            </button>
+            <button class="nav-tab" onclick="showSection('payroll')">
+                <span class="material-icons">payment</span>급여 관리
+            </button>
+        </div>
+
+        <!-- 대시보드 섹션 -->
+        <div id="dashboard" class="content-section active">
+            <div class="card">
+                <h2><span class="material-icons">analytics</span>시스템 현황</h2>
+                <p>인사 관리 시스템의 주요 지표와 현황을 확인하세요.</p>
+                <div style="margin-top: 20px;">
+                    <div style="background: #f0f7ff; padding: 15px; border-radius: 8px; border-left: 4px solid #1976d2;">
+                        <strong>✅ 시스템 상태:</strong> 정상 운영 중<br>
+                        <strong>📊 데이터베이스:</strong> 연결됨<br>
+                        <strong>🔄 마지막 동기화:</strong> 2분 전
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 직원 관리 섹션 -->
+        <div id="employees" class="content-section">
+            <div class="card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h2><span class="material-icons">people</span>직원 관리</h2>
+                    <button class="btn">
+                        <span class="material-icons">add</span>직원 추가
+                    </button>
+                </div>
+                
+                <div class="employee-grid">
+                    <div class="employee-card">
+                        <div class="employee-header">
+                            <div class="avatar">김</div>
+                            <div class="employee-info">
+                                <h3>김민수</h3>
+                                <p>개발팀 • 시니어 개발자</p>
+                            </div>
+                        </div>
+                        <p><span class="material-icons">email</span>kim.minsu@company.com</p>
+                        <p><span class="material-icons">phone</span>010-1234-5678</p>
+                    </div>
+                    
+                    <div class="employee-card">
+                        <div class="employee-header">
+                            <div class="avatar">이</div>
+                            <div class="employee-info">
+                                <h3>이영희</h3>
+                                <p>인사팀 • 팀장</p>
+                            </div>
+                        </div>
+                        <p><span class="material-icons">email</span>lee.younghee@company.com</p>
+                        <p><span class="material-icons">phone</span>010-2345-6789</p>
+                    </div>
+                    
+                    <div class="employee-card">
+                        <div class="employee-header">
+                            <div class="avatar">박</div>
+                            <div class="employee-info">
+                                <h3>박철수</h3>
+                                <p>마케팅팀 • 매니저</p>
+                            </div>
+                        </div>
+                        <p><span class="material-icons">email</span>park.chulsoo@company.com</p>
+                        <p><span class="material-icons">phone</span>010-3456-7890</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 부서 관리 섹션 -->
+        <div id="departments" class="content-section">
+            <div class="card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h2><span class="material-icons">business</span>부서 관리</h2>
+                    <button class="btn">
+                        <span class="material-icons">add</span>부서 추가
+                    </button>
+                </div>
+                
+                <div class="employee-grid">
+                    <div class="employee-card">
+                        <h3><span class="material-icons">code</span>개발팀</h3>
+                        <p>소프트웨어 개발 및 유지보수</p>
+                        <p><strong>팀장:</strong> 김민수</p>
+                        <p><strong>팀원:</strong> 8명</p>
+                    </div>
+                    
+                    <div class="employee-card">
+                        <h3><span class="material-icons">people</span>인사팀</h3>
+                        <p>인사 관리 및 채용</p>
+                        <p><strong>팀장:</strong> 이영희</p>
+                        <p><strong>팀원:</strong> 4명</p>
+                    </div>
+                    
+                    <div class="employee-card">
+                        <h3><span class="material-icons">campaign</span>마케팅팀</h3>
+                        <p>마케팅 전략 및 홍보</p>
+                        <p><strong>팀장:</strong> 박철수</p>
+                        <p><strong>팀원:</strong> 6명</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 근태 관리 섹션 -->
+        <div id="attendance" class="content-section">
+            <div class="card">
+                <h2><span class="material-icons">access_time</span>근태 관리</h2>
+                
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>직원명</th>
+                            <th>출근 시간</th>
+                            <th>퇴근 시간</th>
+                            <th>근무 시간</th>
+                            <th>상태</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>김민수</td>
+                            <td>09:00</td>
+                            <td>18:30</td>
+                            <td>8시간 30분</td>
+                            <td><span class="badge badge-success">퇴근 완료</span></td>
+                        </tr>
+                        <tr>
+                            <td>이영희</td>
+                            <td>08:45</td>
+                            <td>-</td>
+                            <td>진행 중</td>
+                            <td><span class="badge badge-warning">근무 중</span></td>
+                        </tr>
+                        <tr>
+                            <td>박철수</td>
+                            <td>09:15</td>
+                            <td>18:00</td>
+                            <td>8시간 45분</td>
+                            <td><span class="badge badge-success">퇴근 완료</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 급여 관리 섹션 -->
+        <div id="payroll" class="content-section">
+            <div class="card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h2><span class="material-icons">payment</span>급여 관리</h2>
+                    <button class="btn">
+                        <span class="material-icons">add</span>급여명세서 생성
+                    </button>
+                </div>
+                
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>직원명</th>
+                            <th>급여 기간</th>
+                            <th>기본급</th>
+                            <th>실수령액</th>
+                            <th>상태</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>김민수</td>
+                            <td>2025-01</td>
+                            <td>₩4,500,000</td>
+                            <td>₩3,800,000</td>
+                            <td><span class="badge badge-success">지급 완료</span></td>
+                        </tr>
+                        <tr>
+                            <td>이영희</td>
+                            <td>2025-01</td>
+                            <td>₩5,000,000</td>
+                            <td>₩4,200,000</td>
+                            <td><span class="badge badge-success">지급 완료</span></td>
+                        </tr>
+                        <tr>
+                            <td>박철수</td>
+                            <td>2025-01</td>
+                            <td>₩4,200,000</td>
+                            <td>₩3,600,000</td>
+                            <td><span class="badge badge-warning">처리 중</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            // 모든 섹션 숨기기
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => section.classList.remove('active'));
+            
+            // 모든 탭 비활성화
+            const tabs = document.querySelectorAll('.nav-tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // 선택된 섹션 보이기
+            document.getElementById(sectionId).classList.add('active');
+            
+            // 선택된 탭 활성화
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>
