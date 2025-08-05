@@ -1,17 +1,15 @@
-# 🏢 Odoo HR 모듈 풀스택 프로젝트
+#  Odoo HR 모듈 풀스택 프로젝트
 
 [![React](https://img.shields.io/badge/React-18.2.0-blue.svg)](https://reactjs.org/)
 [![Odoo](https://img.shields.io/badge/Odoo-16.0-purple.svg)](https://www.odoo.com/)
 [![Docker](https://img.shields.io/badge/Docker-Compose-blue.svg)](https://docs.docker.com/compose/)
 [![Material-UI](https://img.shields.io/badge/Material--UI-5.0-blue.svg)](https://mui.com/)
 
-## 🎯 프로젝트 개요
+##  프로젝트 개요
 
-**완전한 실제 Odoo 백엔드 연동 성공!** 🎉
+이 프로젝트는 **실제 Odoo HR 데이터베이스**와 **React 프론트엔드**를 연동한 풀스택 인사관리 시스템입니다. CORS 프록시 서버를 통해 실제 Odoo 백엔드 데이터를 사용하며, 기업에서 실제로 사용할 수 있는 수준의 HR 기능을 제공합니다.
 
-이 프로젝트는 **실제 Odoo HR 데이터베이스**와 **React 프론트엔드**를 완벽하게 연동한 풀스택 인사관리 시스템입니다. CORS 프록시 서버를 통해 실제 Odoo 백엔드 데이터를 사용하며, 기업에서 실제로 사용할 수 있는 수준의 HR 기능을 제공합니다.
-
-### ✨ 주요 성과
+###  주요 성과
 - 🎯 **실제 Odoo 데이터 연동**: 모의 데이터가 아닌 실제 Odoo HR 데이터베이스 사용
 - 🔄 **CORS 문제 완전 해결**: 프록시 서버를 통한 안정적인 API 연동
 - 🏗️ **완전한 풀스택 아키텍처**: Docker + Odoo + CORS Proxy + React
@@ -28,12 +26,12 @@
 - 🎓 **교육 관리 (eLearning)**: 온라인 교육 과정 및 진도 관리
 - ⭐ **인사평가 (Appraisal)**: 직원 성과 평가 및 피드백
 
-## 🔧 실행 환경
+##  실행 환경
 - **Node.js 18+**
 - **Docker & Docker Compose**
 - **Git**
 
-## 🚀 설치 및 실행 방법
+##  설치 및 실행 방법
 
 ### 📋 전체 실행 순서 요약
 1. **Odoo 백엔드** 실행 (Docker)
@@ -67,7 +65,7 @@ docker-compose ps
 docker logs personal-website-odoo-1
 ```
 
-**✅ Odoo 초기 설정:**
+** Odoo 초기 설정:**
 1. 브라우저에서 `http://localhost:8069` 접속
 2. 데이터베이스 생성: `odoo_hr`
 3. 관리자 계정 생성: `admin` / `admin`
@@ -119,14 +117,14 @@ npm start
    - 사용자명: `admin`
    - 비밀번호: `admin`
 3. **HR 모듈 테스트**:
-   - 👥 직원 관리
-   - 🏢 부서 관리
-   - ⏰ 근태 관리
-   - 🏖️ 연차 관리
-   - 📋 전자결재
-   - 🎓 교육 관리
-   - 📊 인사평가
-   - 💰 급여 관리
+   -  직원 관리
+   -  부서 관리
+   -  근태 관리
+   -  연차 관리
+   -  전자결재
+   -  교육 관리
+   -  인사평가
+   -  급여 관리
 
 ---
 
@@ -227,6 +225,7 @@ personal-website/
 
 ## Windsurf Vibe Coding 과정
 모든 개발 과정은 `scripts/vibe-process.md`에 상세히 기록되어 있습니다.
+(오류 해결과정 - DEVELOPMENT_GUIDE)
 
 ### 주요 Windsurf 활용 기능
 - 🤖 **AI 코드 생성**: React 컴포넌트 및 API 서비스 자동 생성
@@ -280,7 +279,7 @@ personal-website/
 
 ## 개발자 정보
 - **개발 도구**: Windsurf (Cascade AI)
-- **개발 기간**: 2025-08-05 ~ 2025-08-14
+- **개발 기간**: 2025-08-04 ~ 2025-08-05
 - **과제 유형**: 풀스택 엔지니어 기술 과제
 
 ## 라이선스
