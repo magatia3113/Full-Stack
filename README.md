@@ -45,8 +45,8 @@
 
 ```bash
 # 프로젝트 클론
-git clone <repository-url>
-cd personal-website
+git clone https://github.com/magatia3113/Full-Stack/
+
 
 # 프로젝트 구조 확인
 ls -la
