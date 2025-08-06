@@ -49,7 +49,7 @@ git clone https://github.com/magatia3113/Full-Stack/
 
 
 # 프로젝트 구조 확인
-ls -la
+ls
 ```
 
 ### 2️⃣ Odoo 백엔드 실행 (Docker)
@@ -61,8 +61,6 @@ docker-compose up -d
 # 컨테이너 상태 확인
 docker-compose ps
 
-# Odoo 로그 확인 (선택사항)
-docker logs personal-website-odoo-1
 ```
 
 ** Odoo 초기 설정:**
