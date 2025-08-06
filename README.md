@@ -170,10 +170,10 @@ cat frontend/.env
 docker-compose restart
 
 # 로그 확인
-docker logs personal-website-odoo-1
+docker ps -a
 ```
 
-**커스텀 애드온 문제시**
+**커스텀 애드온 문제 시**
 ```bash
 
 데스크탑, 노트북에서 테스트 진행되었습니다
