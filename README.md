@@ -98,10 +98,6 @@ cd frontend
 # 의존성 설치
 npm install
 
-# 환경 변수 확인 (.env 파일)
-cat .env
-# REACT_APP_ODOO_URL=http://localhost:8070 확인
-
 # React 개발 서버 실행
 npm start
 
