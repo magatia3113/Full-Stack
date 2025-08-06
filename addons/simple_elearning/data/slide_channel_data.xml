@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Sample Courses -->
+        <record id="course_python_basics" model="elearning.course">
+            <field name="name">Python Programming Basics</field>
+            <field name="description">Learn the fundamentals of Python programming language</field>
+            <field name="user_id" ref="base.user_admin"/>
+            <field name="enroll">public</field>
+            <field name="visibility">public</field>
+            <field name="total_slides">15</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="course_hr_management" model="elearning.course">
+            <field name="name">HR Management Training</field>
+            <field name="description">Comprehensive training on HR policies and procedures</field>
+            <field name="user_id" ref="base.user_admin"/>
+            <field name="enroll">invite</field>
+            <field name="visibility">members</field>
+            <field name="total_slides">20</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="course_safety_compliance" model="elearning.course">
+            <field name="name">Safety and Compliance</field>
+            <field name="description">Workplace safety guidelines and compliance training</field>
+            <field name="user_id" ref="base.user_admin"/>
+            <field name="enroll">public</field>
+            <field name="visibility">public</field>
+            <field name="total_slides">12</field>
+            <field name="active">True</field>
+        </record>
+
+        <!-- Sample Enrollments -->
+        <record id="enrollment_demo_python" model="elearning.enrollment">
+            <field name="course_id" ref="course_python_basics"/>
+            <field name="partner_id" ref="base.partner_admin"/>
+            <field name="employee_id" ref="hr.employee_admin"/>
+            <field name="state">completed</field>
+            <field name="completion">100.0</field>
+            <field name="completed">True</field>
+            <field name="slide_views">15</field>
+            <field name="quiz_attempts">3</field>
+            <field name="quiz_karma">85</field>
+            <field name="enrollment_date">2025-01-15 09:00:00</field>
+            <field name="completion_date">2025-02-01 16:30:00</field>
+        </record>
+
+        <record id="enrollment_demo_hr" model="elearning.enrollment">
+            <field name="course_id" ref="course_hr_management"/>
+            <field name="partner_id" ref="base.partner_admin"/>
+            <field name="employee_id" ref="hr.employee_admin"/>
+            <field name="state">in_progress</field>
+            <field name="completion">65.0</field>
+            <field name="completed">False</field>
+            <field name="slide_views">13</field>
+            <field name="quiz_attempts">2</field>
+            <field name="quiz_karma">78</field>
+            <field name="enrollment_date">2025-02-01 10:00:00</field>
+            <field name="last_activity_date">2025-02-15 14:20:00</field>
+        </record>
+
+        <record id="enrollment_demo_safety" model="elearning.enrollment">
+            <field name="course_id" ref="course_safety_compliance"/>
+            <field name="partner_id" ref="base.partner_admin"/>
+            <field name="employee_id" ref="hr.employee_admin"/>
+            <field name="state">enrolled</field>
+            <field name="completion">0.0</field>
+            <field name="completed">False</field>
+            <field name="slide_views">0</field>
+            <field name="quiz_attempts">0</field>
+            <field name="quiz_karma">0</field>
+            <field name="enrollment_date">2025-02-10 08:30:00</field>
+        </record>
+    </data>
+</odoo>

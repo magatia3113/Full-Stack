@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Appraisal Tree View -->
+        <record id="hr_appraisal_view_tree" model="ir.ui.view">
+            <field name="name">hr.appraisal.tree</field>
+            <field name="model">hr.appraisal</field>
+            <field name="arch" type="xml">
+                <tree string="Appraisals">
+                    <field name="name"/>
+                    <field name="employee_id"/>
+                    <field name="manager_id"/>
+                    <field name="date_close"/>
+                    <field name="final_score"/>
+                    <field name="overall_rating"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Appraisal Form View -->
+        <record id="hr_appraisal_view_form" model="ir.ui.view">
+            <field name="name">hr.appraisal.form</field>
+            <field name="model">hr.appraisal</field>
+            <field name="arch" type="xml">
+                <form string="Employee Appraisal">
+                    <header>
+                        <button name="action_start_appraisal" string="Start Appraisal" type="object" 
+                                states="new" class="oe_highlight"/>
+                        <button name="action_complete_appraisal" string="Complete" type="object" 
+                                states="pending" class="oe_highlight"/>
+                        <button name="action_cancel_appraisal" string="Cancel" type="object" 
+                                states="new,pending"/>
+                        <button name="action_reset_to_draft" string="Reset to Draft" type="object" 
+                                states="done,cancel"/>
+                        <field name="state" widget="statusbar" statusbar_visible="new,pending,done"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="Appraisal Name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="employee_id"/>
+                                <field name="manager_id"/>
+                                <field name="meeting_date"/>
+                            </group>
+                            <group>
+                                <field name="date_start"/>
+                                <field name="date_close"/>
+                                <field name="next_appraisal_date"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Performance Scores">
+                                <group>
+                                    <group string="Skills Assessment (0-5)">
+                                        <field name="technical_skills" widget="float"/>
+                                        <field name="communication" widget="float"/>
+                                        <field name="teamwork" widget="float"/>
+                                        <field name="leadership" widget="float"/>
+                                        <field name="problem_solving" widget="float"/>
+                                    </group>
+                                    <group string="Overall Rating">
+                                        <field name="final_score" widget="float"/>
+                                        <field name="overall_rating"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Feedback">
+                                <group>
+                                    <field name="manager_feedback" placeholder="Manager's feedback and comments..."/>
+                                    <field name="employee_feedback" placeholder="Employee's self-assessment..."/>
+                                </group>
+                            </page>
+                            <page string="Goals">
+                                <group>
+                                    <field name="goals_achieved" placeholder="Goals achieved during this period..."/>
+                                    <field name="goals_next_period" placeholder="Goals for the next appraisal period..."/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Actions -->
+        <record id="action_hr_appraisal" model="ir.actions.act_window">
+            <field name="name">Employee Appraisals</field>
+            <field name="res_model">hr.appraisal</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create your first employee appraisal!
+                </p>
+                <p>
+                    Track and manage employee performance appraisals.
+                </p>
+            </field>
+        </record>
+
+        <!-- Menu Items -->
+        <menuitem id="menu_appraisal_root" name="Appraisals" parent="hr.menu_hr_root" sequence="70"/>
+        
+        <menuitem id="menu_hr_appraisal" name="Employee Appraisals" parent="menu_appraisal_root" 
+                  action="action_hr_appraisal" sequence="10"/>
+    </data>
+</odoo>

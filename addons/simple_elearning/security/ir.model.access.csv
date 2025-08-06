@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_elearning_course_user,elearning.course user,model_elearning_course,base.group_user,1,1,1,1
+access_elearning_enrollment_user,elearning.enrollment user,model_elearning_enrollment,base.group_user,1,1,1,1

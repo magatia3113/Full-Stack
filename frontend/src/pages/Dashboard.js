@@ -39,28 +39,49 @@ const StatCard = ({ title, value, icon, color }) => (
 );
 
 export default function Dashboard() {
-  const { data: employees, isLoading: employeesLoading } = useQuery(
+  const { data: employees, isLoading: employeesLoading, error: employeesError } = useQuery(
     'employees',
     () => odooApi.getEmployees(['name', 'department_id']),
-    { retry: 1 }
+    { 
+      retry: 1,
+      onError: (error) => {
+        console.warn('💡 HR 모듈이 설치되지 않았거나 권한이 없습니다:', error.message);
+      }
+    }
   );
 
-  const { data: departments, isLoading: departmentsLoading } = useQuery(
+  const { data: departments, isLoading: departmentsLoading, error: departmentsError } = useQuery(
     'departments',
     () => odooApi.getDepartments(['name', 'member_ids']),
-    { retry: 1 }
+    { 
+      retry: 1,
+      onError: (error) => {
+        console.warn('💡 HR Department 모듈이 설치되지 않았거나 권한이 없습니다:', error.message);
+      }
+    }
   );
 
-  const { data: attendance, isLoading: attendanceLoading } = useQuery(
+  const { data: attendance, isLoading: attendanceLoading, error: attendanceError } = useQuery(
     'attendance',
     () => odooApi.getAttendance(null, ['employee_id', 'check_in', 'check_out']),
-    { retry: 1 }
+    { 
+      retry: 1,
+      onError: (error) => {
+        console.warn('💡 HR Attendance 모듈이 설치되지 않았거나 권한이 없습니다:', error.message);
+      }
+    }
   );
 
-  const { data: payslips, isLoading: payslipsLoading } = useQuery(
+  // OCA Community Payroll 모듈 설치로 Payroll 기능 활성화
+  const { data: payslips, isLoading: payslipsLoading, error: payslipsError } = useQuery(
     'payslips',
     () => odooApi.getPayslips(['employee_id', 'state', 'net_wage']),
-    { retry: 1 }
+    { 
+      retry: 1,
+      onError: (error) => {
+        console.warn('💡 OCA Community Payroll 모듈을 설치하고 활성화해주세요:', error.message);
+      }
+    }
   );
 
   if (employeesLoading || departmentsLoading || attendanceLoading || payslipsLoading) {

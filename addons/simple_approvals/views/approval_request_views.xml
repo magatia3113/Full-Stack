@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Approval Category Tree View -->
+        <record id="approval_category_view_tree" model="ir.ui.view">
+            <field name="name">approval.category.tree</field>
+            <field name="model">approval.category</field>
+            <field name="arch" type="xml">
+                <tree string="Approval Categories">
+                    <field name="sequence" widget="handle"/>
+                    <field name="name"/>
+                    <field name="approval_type"/>
+                    <field name="request_count"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Approval Category Form View -->
+        <record id="approval_category_view_form" model="ir.ui.view">
+            <field name="name">approval.category.form</field>
+            <field name="model">approval.category</field>
+            <field name="arch" type="xml">
+                <form string="Approval Category">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="Category Name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="approval_type"/>
+                                <field name="sequence"/>
+                                <field name="active"/>
+                                <field name="color" widget="color"/>
+                            </group>
+                            <group>
+                                <field name="has_amount"/>
+                                <field name="has_date"/>
+                                <field name="has_period"/>
+                                <field name="manager_approval"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Description">
+                                <field name="description" placeholder="Category description..."/>
+                            </page>
+                            <page string="Approvers">
+                                <field name="approver_ids">
+                                    <tree>
+                                        <field name="name"/>
+                                        <field name="email"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Approval Request Tree View -->
+        <record id="approval_request_view_tree" model="ir.ui.view">
+            <field name="name">approval.request.tree</field>
+            <field name="model">approval.request</field>
+            <field name="arch" type="xml">
+                <tree string="Approval Requests">
+                    <field name="name"/>
+                    <field name="category_id"/>
+                    <field name="request_owner_id"/>
+                    <field name="employee_id"/>
+                    <field name="priority" widget="priority"/>
+                    <field name="request_date"/>
+                    <field name="amount" optional="hide"/>
+                    <field name="state" decoration-success="state=='approved'" 
+                           decoration-danger="state=='refused'" decoration-warning="state=='pending'"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Approval Request Form View -->
+        <record id="approval_request_view_form" model="ir.ui.view">
+            <field name="name">approval.request.form</field>
+            <field name="model">approval.request</field>
+            <field name="arch" type="xml">
+                <form string="Approval Request">
+                    <header>
+                        <button name="action_submit" string="Submit" type="object" 
+                                states="new" class="oe_highlight"/>
+                        <button name="action_approve" string="Approve" type="object" 
+                                states="pending" class="oe_highlight" attrs="{'invisible': [('can_approve', '=', False)]}"/>
+                        <button name="action_refuse" string="Refuse" type="object" 
+                                states="pending" attrs="{'invisible': [('can_approve', '=', False)]}"/>
+                        <button name="action_cancel" string="Cancel" type="object" 
+                                states="new,pending"/>
+                        <button name="action_draft" string="Reset to Draft" type="object" 
+                                states="approved,refused,cancel"/>
+                        <field name="state" widget="statusbar" statusbar_visible="new,pending,approved"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="Request Subject"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="category_id"/>
+                                <field name="request_owner_id"/>
+                                <field name="employee_id"/>
+                                <field name="priority" widget="priority"/>
+                            </group>
+                            <group>
+                                <field name="request_date"/>
+                                <field name="approval_date" attrs="{'invisible': [('approval_date', '=', False)]}"/>
+                                <field name="approved_by" attrs="{'invisible': [('approved_by', '=', False)]}"/>
+                                <field name="refused_by" attrs="{'invisible': [('refused_by', '=', False)]}"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="date_start"/>
+                                <field name="date_end"/>
+                                <field name="duration_days" attrs="{'invisible': [('duration_days', '=', 0)]}"/>
+                                <field name="amount"/>
+                            </group>
+                            <group>
+                                <field name="can_approve" invisible="1"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Description">
+                                <field name="reason" placeholder="Describe your request in detail..."/>
+                            </page>
+                            <page string="Approval Details" attrs="{'invisible': [('state', 'in', ['new', 'pending'])]}">
+                                <group>
+                                    <field name="approval_comment" placeholder="Approval comments..." 
+                                           attrs="{'invisible': [('state', '!=', 'approved')]}"/>
+                                    <field name="refusal_reason" placeholder="Reason for refusal..." 
+                                           attrs="{'invisible': [('state', '!=', 'refused')]}"/>
+                                </group>
+                            </page>
+                            <page string="Approvers">
+                                <field name="approver_ids">
+                                    <tree>
+                                        <field name="name"/>
+                                        <field name="email"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Actions -->
+        <record id="action_approval_request_my" model="ir.actions.act_window">
+            <field name="name">My Requests</field>
+            <field name="res_model">approval.request</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('request_owner_id', '=', uid)]</field>
+            <field name="context">{'default_request_owner_id': uid}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create your first approval request!
+                </p>
+                <p>
+                    Submit requests for approval by your manager or HR team.
+                </p>
+            </field>
+        </record>
+
+        <record id="action_approval_request_all" model="ir.actions.act_window">
+            <field name="name">All Requests</field>
+            <field name="res_model">approval.request</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No approval requests yet!
+                </p>
+                <p>
+                    View all approval requests in the system.
+                </p>
+            </field>
+        </record>
+
+        <record id="action_approval_request_to_approve" model="ir.actions.act_window">
+            <field name="name">Requests to Approve</field>
+            <field name="res_model">approval.request</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('state', '=', 'pending'), ('approver_ids', 'in', [uid])]</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No requests waiting for your approval!
+                </p>
+                <p>
+                    Review and approve pending requests.
+                </p>
+            </field>
+        </record>
+
+        <record id="action_approval_category" model="ir.actions.act_window">
+            <field name="name">Approval Categories</field>
+            <field name="res_model">approval.category</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create your first approval category!
+                </p>
+                <p>
+                    Define categories for different types of approval requests.
+                </p>
+            </field>
+        </record>
+
+        <!-- Menu Items -->
+        <menuitem id="menu_approvals_root" name="Approvals" parent="hr.menu_hr_root" sequence="80"/>
+        
+        <menuitem id="menu_approval_request" name="My Requests" parent="menu_approvals_root" 
+                  action="action_approval_request_my" sequence="10"/>
+        
+        <menuitem id="menu_approval_request_all" name="All Requests" parent="menu_approvals_root" 
+                  action="action_approval_request_all" sequence="20"/>
+        
+        <menuitem id="menu_approval_request_to_approve" name="To Approve" parent="menu_approvals_root" 
+                  action="action_approval_request_to_approve" sequence="30"/>
+        
+        <menuitem id="menu_approval_category" name="Categories" parent="menu_approvals_root" 
+                  action="action_approval_category" sequence="40"/>
+    </data>
+</odoo>

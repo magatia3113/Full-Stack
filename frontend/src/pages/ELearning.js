@@ -100,9 +100,9 @@ const ELearning = () => {
   // 교육 과정 목록 조회
   const { data: courses, isLoading, error } = useQuery(
     'courses',
-    () => odooApi.searchRead('slide.channel', [], [
-      'id', 'name', 'description', 'total_slides', 'total_time',
-      'user_id', 'create_date', 'slide_ids', 'enroll_count'
+    () => odooApi.searchRead('elearning.course', [], [
+      'id', 'name', 'description', 'total_slides', 'slide_count',
+      'user_id', 'create_date', 'slide_ids', 'enroll', 'visibility', 'active'
     ]),
     {
       refetchInterval: 30000,
@@ -112,9 +112,9 @@ const ELearning = () => {
   // 교육 참여 현황 조회
   const { data: enrollments } = useQuery(
     'enrollments',
-    () => odooApi.searchRead('slide.channel.partner', [], [
-      'id', 'channel_id', 'partner_id', 'completion', 'completed',
-      'create_date', 'slide_partner_ids'
+    () => odooApi.searchRead('elearning.enrollment', [], [
+      'id', 'course_id', 'partner_id', 'employee_id', 'completion', 'completed',
+      'completion_date', 'slide_views', 'quiz_attempts', 'quiz_karma', 'state'
     ])
   );
 
@@ -126,7 +126,7 @@ const ELearning = () => {
 
   // 교육 과정 생성
   const createCourseMutation = useMutation(
-    (data) => odooApi.create('slide.channel', data),
+    (data) => odooApi.create('elearning.course', data),
     {
       onSuccess: () => {
         queryClient.invalidateQueries('courses');

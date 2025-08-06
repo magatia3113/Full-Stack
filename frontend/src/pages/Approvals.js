@@ -103,8 +103,8 @@ const Approvals = () => {
   const { data: approvalRequests, isLoading, error } = useQuery(
     'approvalRequests',
     () => odooApi.searchRead('approval.request', [], [
-      'id', 'name', 'category_id', 'request_owner_id', 'request_status',
-      'date_start', 'date_end', 'reason', 'create_date', 'approver_ids'
+      'id', 'name', 'category_id', 'request_owner_id', 'employee_id',
+      'date_start', 'date_end', 'reason', 'amount', 'state'
     ]),
     {
       refetchInterval: 30000,
