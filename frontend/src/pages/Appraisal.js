@@ -104,8 +104,8 @@ const Appraisal = () => {
   const { data: appraisals, isLoading, error } = useQuery(
     'appraisals',
     () => odooApi.searchRead('hr.appraisal', [], [
-      'id', 'employee_id', 'manager_id', 'state', 'date_close',
-      'create_date', 'note', 'final_interview_date', 'employee_feedback'
+      'id', 'name', 'employee_id', 'manager_id', 'state', 'date_start', 'date_close',
+      'technical_skills', 'communication', 'teamwork', 'leadership', 'overall_rating'
     ]),
     {
       refetchInterval: 30000,

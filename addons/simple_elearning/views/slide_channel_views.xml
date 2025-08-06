@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Course Tree View -->
+        <record id="view_elearning_course_tree" model="ir.ui.view">
+            <field name="name">elearning.course.tree</field>
+            <field name="model">elearning.course</field>
+            <field name="arch" type="xml">
+                <tree string="Courses">
+                    <field name="name"/>
+                    <field name="user_id"/>
+                    <field name="slide_count"/>
+                    <field name="completion_rate"/>
+                    <field name="enroll"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Course Form View -->
+        <record id="view_elearning_course_form" model="ir.ui.view">
+            <field name="name">elearning.course.form</field>
+            <field name="model">elearning.course</field>
+            <field name="arch" type="xml">
+                <form string="Course">
+                    <header>
+                        <button name="action_view_enrollments" string="View Enrollments" type="object" 
+                                class="oe_highlight"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="Course Name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="user_id"/>
+                                <field name="enroll"/>
+                                <field name="visibility"/>
+                                <field name="active"/>
+                            </group>
+                            <group>
+                                <field name="slide_count"/>
+                                <field name="total_slides"/>
+                                <field name="completion_rate" widget="percentage"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Description">
+                                <field name="description" placeholder="Course description..."/>
+                            </page>
+                            <page string="Enrollments">
+                                <field name="slide_ids">
+                                    <tree editable="bottom">
+                                        <field name="partner_id"/>
+                                        <field name="employee_id"/>
+                                        <field name="state"/>
+                                        <field name="completion" widget="percentage"/>
+                                        <field name="enrollment_date"/>
+                                        <field name="completion_date"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Course Enrollment Tree View -->
+        <record id="view_elearning_enrollment_tree" model="ir.ui.view">
+            <field name="name">elearning.enrollment.tree</field>
+            <field name="model">elearning.enrollment</field>
+            <field name="arch" type="xml">
+                <tree string="Course Enrollments">
+                    <field name="course_id"/>
+                    <field name="partner_id"/>
+                    <field name="employee_id"/>
+                    <field name="state"/>
+                    <field name="completion" widget="percentage"/>
+                    <field name="enrollment_date"/>
+                    <field name="completion_date"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Course Enrollment Form View -->
+        <record id="view_elearning_enrollment_form" model="ir.ui.view">
+            <field name="name">elearning.enrollment.form</field>
+            <field name="model">elearning.enrollment</field>
+            <field name="arch" type="xml">
+                <form string="Course Enrollment">
+                    <header>
+                        <button name="action_start_course" string="Start Course" type="object" 
+                                states="enrolled" class="oe_highlight"/>
+                        <button name="action_mark_completed" string="Mark Completed" type="object" 
+                                states="in_progress" class="oe_highlight"/>
+                        <button name="action_cancel_enrollment" string="Cancel" type="object" 
+                                states="enrolled,in_progress"/>
+                        <field name="state" widget="statusbar" statusbar_visible="enrolled,in_progress,completed"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="course_id"/>
+                                <field name="partner_id"/>
+                                <field name="employee_id"/>
+                            </group>
+                            <group>
+                                <field name="completion" widget="percentage"/>
+                                <field name="completed"/>
+                                <field name="enrollment_date"/>
+                                <field name="completion_date"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group string="Progress">
+                                <field name="slide_views"/>
+                                <field name="quiz_attempts"/>
+                                <field name="quiz_karma"/>
+                                <field name="last_activity_date"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Actions -->
+        <record id="action_elearning_course" model="ir.actions.act_window">
+            <field name="name">Courses</field>
+            <field name="res_model">elearning.course</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create your first course!
+                </p>
+                <p>
+                    Create and manage e-learning courses for your employees.
+                </p>
+            </field>
+        </record>
+
+        <record id="action_elearning_enrollment" model="ir.actions.act_window">
+            <field name="name">Course Enrollments</field>
+            <field name="res_model">elearning.enrollment</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No enrollments yet!
+                </p>
+                <p>
+                    Track employee course enrollments and progress.
+                </p>
+            </field>
+        </record>
+
+        <!-- Menu Items -->
+        <menuitem id="menu_elearning_root" name="E-Learning" parent="hr.menu_hr_root" sequence="60"/>
+        
+        <menuitem id="menu_elearning_course" name="Courses" parent="menu_elearning_root" 
+                  action="action_elearning_course" sequence="10"/>
+        
+        <menuitem id="menu_elearning_enrollment" name="Enrollments" parent="menu_elearning_root" 
+                  action="action_elearning_enrollment" sequence="20"/>
+    </data>
+</odoo>
