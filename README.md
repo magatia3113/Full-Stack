@@ -173,6 +173,22 @@ docker-compose restart
 docker logs personal-website-odoo-1
 ```
 
+**커스텀 애드온 문제시**
+```bash
+
+데스크탑, 노트북에서 테스트 진행되었습니다
+
+커스텀 addons가 불러와지지 않을 경우, 아래의 명령어 실행이 필요할 수 있습니다.
+
+
+# Odoo 컨테이너의 db에 모듈을 설치
+
+docker exec full-stack-odoo-1 /usr/bin/odoo --database=odoo_hr --init=simple_payroll,simple_appraisal,simple_elearning,simple_approvals --stop-after-init --no-http
+
+# odoo 재시작 
+docker-compose restart odoo
+```
+
 ## API 연동
 - Odoo REST API 엔드포인트: `http://localhost:8069/web/dataset/call_kw`
 - RPC API를 통한 데이터 CRUD 작업
