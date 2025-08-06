@@ -235,7 +235,7 @@ personal-website/
 ## Windsurf Vibe Coding 과정
 모든 개발 과정은 `scripts/vibe-process.md`에 상세히 기록되어 있습니다.<br>
 `(개발 환경 가이드 - DEVELOPMENT_GUIDE.md)`<br>
-`(주요 모듈 가이드 - MODULE_GUIDE)`
+`(주요 모듈 가이드 - MODULE_GUIDE.md)`
 
 ### 주요 Windsurf 활용 기능
 - 🤖 **AI 코드 생성**: React 컴포넌트 및 API 서비스 자동 생성
