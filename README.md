@@ -49,7 +49,7 @@ git clone https://github.com/magatia3113/Full-Stack/
 
 
 # 프로젝트 구조 확인
-ls
+ls -la
 ```
 
 ### 2️⃣ Odoo 백엔드 실행 (Docker)
@@ -61,6 +61,8 @@ docker-compose up -d
 # 컨테이너 상태 확인
 docker-compose ps
 
+# Odoo 로그 확인 (선택사항)
+docker logs personal-website-odoo-1
 ```
 
 ** Odoo 초기 설정:**
@@ -125,7 +127,7 @@ npm start
    -  급여 관리
 
 ---
-```
+
 ## 🔍 실행 중 확인사항
 
 ### ✅ 정상 작동 확인 방법:
@@ -170,22 +172,6 @@ docker-compose restart
 # 로그 확인
 docker logs personal-website-odoo-1
 ```
-
-**Docker 커스텀 모듈 로드 오류시:**
-
-데스크탑, 노트북에서 테스트 진행되었습니다
-
-커스텀 addons가 불러와지지 않을 경우, 아래의 명령어 실행이 필요할 수 있습니다.
-
-# Odoo 컨테이너의 db에 모듈을 설치
-docker exec full-stack-odoo-1 /usr/bin/odoo --database=odoo_hr --init=simple_payroll,simple_appraisal,simple_elearning,simple_approvals --stop-after-init --no-http
-
-# odoo 재시작 
-docker-compose restart odoo
-
-```
-
-
 
 ## API 연동
 - Odoo REST API 엔드포인트: `http://localhost:8069/web/dataset/call_kw`
