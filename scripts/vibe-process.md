@@ -87,12 +87,19 @@ class OdooAPI {
 ### 4단계: HR 모듈별 페이지 구현
 
 #### 구현된 주요 컴포넌트:
-1. **Employees.js** - 직원 관리 CRUD
-2. **Payroll.js** - 급여 계산 및 관리
-3. **Attendance.js** - 출근/퇴근 기록
-4. **Departments.js** - 부서 조직도 관리
-5. **Dashboard.js** - HR 대시보드
-6. **Approvals.js** - 전자결재 관리
+1. **Appraisal.js** – 인사평가 화면 및 평가 피드백 관리
+2. **Approvals.js** – 전자결재 요청 및 승인 흐름 관리
+3. **Attendance.js** – 출근/퇴근 기록 및 근태 내역 조회
+4. **Dashboard.js** – HR 핵심 지표 대시보드
+5. **Departments.js** – 부서 관리 및 조직도 표시
+6. **ELearning.js** – 사내 교육 과정 및 학습 진도 관리
+7. **Employees.js** – 직원 정보 CRUD(등록, 수정, 삭제, 조회)
+8. **Login.js** – 사용자 로그인 화면
+9. **Payroll.js** – 급여 계산 및 급여 내역 관리
+10. **TimeOff.js** – 연차/휴가 신청 및 승인 관리
+
+
+
 
 **Windsurf 활용 포인트:**
 - Material-UI 테이블/폼 컴포넌트 자동 생성
