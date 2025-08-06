@@ -182,7 +182,6 @@ docker logs personal-website-odoo-1
 
 
 # Odoo 컨테이너의 db에 모듈을 설치
-
 docker exec full-stack-odoo-1 /usr/bin/odoo --database=odoo_hr --init=simple_payroll,simple_appraisal,simple_elearning,simple_approvals --stop-after-init --no-http
 
 # odoo 재시작 
