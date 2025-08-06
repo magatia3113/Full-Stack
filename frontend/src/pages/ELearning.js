@@ -126,7 +126,7 @@ const ELearning = () => {
 
   // 교육 과정 생성
   const createCourseMutation = useMutation(
-    (data) => odooApi.create('slide.channel', data),
+    (data) => odooApi.create('elearning.course', data),
     {
       onSuccess: () => {
         queryClient.invalidateQueries('courses');
