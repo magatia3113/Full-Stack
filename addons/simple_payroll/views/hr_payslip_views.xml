@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Payslip Tree View -->
+        <record id="hr_payslip_view_tree" model="ir.ui.view">
+            <field name="name">hr.payslip.tree</field>
+            <field name="model">hr.payslip</field>
+            <field name="arch" type="xml">
+                <tree string="Payslips">
+                    <field name="name"/>
+                    <field name="employee_id"/>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                    <field name="net_wage"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Payslip Form View -->
+        <record id="hr_payslip_view_form" model="ir.ui.view">
+            <field name="name">hr.payslip.form</field>
+            <field name="model">hr.payslip</field>
+            <field name="arch" type="xml">
+                <form string="Payslip">
+                    <header>
+                        <button name="action_payslip_done" string="Confirm" type="object" 
+                                states="draft" class="oe_highlight"/>
+                        <button name="action_payslip_draft" string="Set to Draft" type="object" 
+                                states="done,cancel"/>
+                        <button name="action_payslip_cancel" string="Cancel" type="object" 
+                                states="draft,done"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,done"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="employee_id"/>
+                                <field name="company_id" groups="base.group_multi_company"/>
+                            </group>
+                            <group>
+                                <field name="date_from"/>
+                                <field name="date_to"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Salary Computation">
+                                <group>
+                                    <group string="Earnings">
+                                        <field name="basic_wage"/>
+                                        <field name="allowances"/>
+                                    </group>
+                                    <group string="Deductions">
+                                        <field name="deductions"/>
+                                    </group>
+                                </group>
+                                <group>
+                                    <field name="net_wage" class="oe_subtotal_footer_separator"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Payslip Action -->
+        <record id="action_hr_payslip" model="ir.actions.act_window">
+            <field name="name">Payslips</field>
+            <field name="res_model">hr.payslip</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new payslip
+                </p>
+                <p>
+                    Create payslips for your employees to manage their salary payments.
+                </p>
+            </field>
+        </record>
+
+        <!-- Menu Items -->
+        <menuitem id="menu_hr_payslip_root" name="Payroll" parent="hr.menu_hr_root" sequence="30"/>
+        <menuitem id="menu_hr_payslip" name="Payslips" parent="menu_hr_payslip_root" 
+                  action="action_hr_payslip" sequence="10"/>
+    </data>
+</odoo>

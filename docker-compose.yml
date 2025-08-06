@@ -24,6 +24,7 @@ services:
     volumes:
       - odoo-web-data:/var/lib/odoo
       - ./config:/etc/odoo
+      - ./addons:/mnt/extra-addons  # Community 애드온 경로
     command: [
       "--database=odoo_hr",
       "--db_host=db",
@@ -31,6 +32,7 @@ services:
       "--db_user=odoo",
       "--db_password=odoo",
       "--xmlrpc-port=8069",
+      "--addons-path=/usr/lib/python3/dist-packages/odoo/addons,/mnt/extra-addons",
       "--dev=reload"
     ]
 
