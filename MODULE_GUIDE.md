@@ -1,9 +1,15 @@
-# Odoo Community Edition Payroll 설정 가이드
+# Odoo Community Edition HR 시스템 커스텀 애드온 설정 가이드
 
-## 문제 상황
-- Odoo Community Edition에는 기본 Payroll 모듈이 포함되어 있지 않음
-- Enterprise Edition에서만 공식 Payroll 기능 제공
-- 프론트엔드에서 `hr.payslip` 모델 접근 시 오류 발생
+## 구현된 기능
+- ✅ 급여 관리 (Custom Payroll 모듈)
+- ✅ 전자결재 (Custom Approval 모듈)
+- ✅ 교육 관리 (Custom E-Learning 모듈)
+- ✅ 인사 관리 (Custom HR 모듈)
+
+## 구현 방식
+- Odoo Community Edition을 기반으로 커스텀 애드온 개발
+- 각 기능별 독립적인 모듈로 구성하여 유지보수성 향상
+- 프론트엔드와의 연동을 위한 REST API 엔드포인트 제공
 
 ## 해결 방법
 
@@ -67,7 +73,7 @@ class HrPayslip(models.Model):
     net_wage = fields.Float(string='Net Wage')
 ```
 
-### 방법 3: 프론트엔드에서 조건부 처리 (현재 적용됨)
+### 방법 3: 프론트엔드에서 조건부 처리 - 커스텀 애드온 적용 (현재 적용됨)
 
 ```javascript
 // Dashboard.js에서 Payroll 기능 비활성화
@@ -83,12 +89,22 @@ const { data: payslips } = useQuery(
 );
 ```
 
-## 권장 사항
+## 모듈 구조
 
-**개발/테스트 환경**: 방법 3 (현재 적용된 상태)
-**프로덕션 환경**: 방법 1 (OCA Community Payroll 모듈)
+```
+addons/
+└── simple_appraisals/          # 인사 관리 핵심 모듈
+├── simple_approvals/           # 전자결재 모듈
+├── simple_elearning/           # 교육 관리 모듈
+├── simple_payroll/             # 급여 관리 모듈
+```
 
 ## 현재 상태
-✅ Payroll 기능이 비활성화되어 오류 없이 작동
-✅ 다른 HR 기능들은 정상 작동
-⚠️ Payroll 통계는 0으로 표시됨
+✅ 4가지 기능이 커스텀 애드온으로 구현 완료
+✅ 프론트엔드와의 연동 완료
+✅ 테스트 환경에서 정상 작동 확인
+
+## 개발 가이드
+1. 각 모듈은 독립적으로 설치/제거 가능
+2. 데이터 마이그레이션 스크립트 포함
+3. API 문서는 각 모듈의 `docs/` 디렉토리 참조
