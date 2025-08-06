@@ -49,7 +49,7 @@ git clone https://github.com/magatia3113/Full-Stack/
 
 
 # 프로젝트 구조 확인
-ls -la
+ls 
 ```
 
 ### 2️⃣ Odoo 백엔드 실행 (Docker)
@@ -61,8 +61,6 @@ docker-compose up -d
 # 컨테이너 상태 확인
 docker-compose ps
 
-# Odoo 로그 확인 (선택사항)
-docker logs personal-website-odoo-1
 ```
 
 ** Odoo 초기 설정:**
@@ -173,10 +171,10 @@ docker-compose restart
 docker ps -a
 ```
 
-**커스텀 애드온 문제 시**
+**커스텀 애드온 인식 문제 시**
 ```bash
 
-데스크탑, 노트북에서 테스트 진행되었습니다
+데스크탑, 노트북에서 테스트 진행되었습니다.
 
 커스텀 addons가 불러와지지 않을 경우, 아래의 명령어 실행이 필요할 수 있습니다.
 
@@ -248,13 +246,11 @@ personal-website/
 - 📝 **문서화 자동 생성**: JSDoc, README, API 문서 생성
 - 🐛 **디버깅 지원**: 에러 해결 및 코드 개선 제안
 
-## 스크린샷 및 증빙 자료
+## 스크린샷 
 상세한 스크린샷은 `screenshots/` 디렉토리에 저장되어 있습니다:
-- 📸 **백엔드 설정**: Odoo 설치 및 HR 모듈 구성
+- 📸 **백엔드 화면**: Odoo 설치 및 HR 모듈 구성
 - 🖥️ **프론트엔드 화면**: 8개 HR 모듈별 UI 스크린샷
-- 🔗 **API 연동 테스트**: REST/RPC API 호출 및 응답 확인
-- 💻 **Windsurf 개발 과정**: AI 코딩 과정 캡처
-
+  
 ## 기술 스택
 ### 백엔드
 - **Odoo 16.0**: ERP 플랫폼 및 HR 모듈
